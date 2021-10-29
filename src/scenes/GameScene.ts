@@ -1,6 +1,6 @@
 import Phaser from "phaser"
 
-const speed = 150
+const speed = 200
 
 export default class GameScene extends Phaser.Scene
 {
@@ -21,6 +21,8 @@ export default class GameScene extends Phaser.Scene
         this.hero = this.physics.add.sprite(100, 100, 'heroStand').setScale(4)
 
         this.cursors = this.input.keyboard.createCursorKeys();
+
+        this.cameras.main.startFollow(this.hero, true);
     }
     update()
     {
@@ -34,11 +36,19 @@ export default class GameScene extends Phaser.Scene
             this.hero.setVelocityX(speed);
             this.hero.setVelocityY(0);
         }
-        // else if (cursors.down.isDown && !gameOver)
-        // {
-        //     player.setVelocityY(speed);
-        //     player.setVelocityX(0);
-        //     player.anims.play('down', true);
-        // }
+        else if (this.cursors.up.isDown)
+        {
+            this.hero.setVelocityX(0);
+            this.hero.setVelocityY(-speed);
         }
+        else if (this.cursors.down.isDown)
+        {
+            this.hero.setVelocityX(0);
+            this.hero.setVelocityY(speed);
+        }
+        else{
+            this.hero.setVelocityX(0);
+            this.hero.setVelocityY(0);
+        }
+    }
 }
