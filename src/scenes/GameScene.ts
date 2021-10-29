@@ -2,6 +2,8 @@ import Phaser from "phaser"
 import Enemy from "~/classes/enemy";
 import "../сharacter/hero"
 
+import { CharacterAnims } from "../anims/HeroAnims";
+
 const game_over = false;
 
 export default class GameScene extends Phaser.Scene
@@ -20,11 +22,14 @@ export default class GameScene extends Phaser.Scene
     {
         this.load.image('heroStand', 'assets/character/hero_stand.png');
         this.load.image('test', 'assets/character/hero_stand.png');
+        this.load.spritesheet('heroStandAnim', 'assets/character/hero_animation.png', { frameWidth: 68, frameHeight: 104 });
+        this.load.spritesheet('heroMoove', 'assets/character/hero_left_right.png', { frameWidth: 72, frameHeight: 104 });
     }
 
     create()
     {
-        this.hero = this.add.hero(100, 100, 'heroStand').setScale(4)
+        CharacterAnims(this.anims)
+        this.hero = this.add.hero(100, 100, 'heroStand')
         // this.hero = this.physics.add.sprite(100, 100, 'heroStand').setScale(4)
         // this.physics.add.sprite(100, 100, 'test')
 
