@@ -1,4 +1,4 @@
-import Phaser, { GameObjects } from 'phaser'
+import Phaser, { GameObjects, RIGHT } from 'phaser'
 import Enemy from '~/classes/enemy';
 
 declare global
@@ -18,6 +18,8 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
     public speed = 150;
     public health = 100;
     public haveHit = true;
+    public walkRight = true;
+    public walkLeft = false;
 
     constructor(scene: Phaser.Scene, x: number, y:number, texture: string, frame?: string | number){
         super(scene, x, y, texture, frame)
@@ -62,11 +64,17 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
         {
             this.setVelocityX(-this.speed);
             this.setVelocityY(0);
+            this.walkRight = false;
+            this.walkLeft = true
+            this.anims.play('hero_left', true);
         }
         else if (cursors.right?.isDown)
         {
             this.setVelocityX(this.speed);
             this.setVelocityY(0);
+            this.walkRight = true;
+            this.walkLeft = false
+            this.anims.play('hero_right', true);
         }
         else if (cursors.up?.isDown)
         {
@@ -86,6 +94,13 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
         else{
             this.setVelocityX(0);
             this.setVelocityY(0);
+            if(this.walkLeft === true)
+            {
+                this.anims.play('hero_stand_left', true);
+            }else{
+                this.anims.play('hero_stand_right', true);
+            }
+            
         }
     }
 }
