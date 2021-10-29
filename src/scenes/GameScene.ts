@@ -1,11 +1,12 @@
-import Phaser from "phaser";
-import Enemy from "../classes/enemy";
+import Phaser from "phaser"
+import Enemy from "~/classes/enemy";
+import "../сharacter/hero"
 
-const speed = 200;
+const game_over = false;
 
 export default class GameScene extends Phaser.Scene
 {
-    private hero;
+    private hero!: Phaser.Physics.Arcade.Sprite
     private cursors;
 
     private enemies: Enemy[];
@@ -18,13 +19,14 @@ export default class GameScene extends Phaser.Scene
 	preload()
     {
         this.load.image('heroStand', 'assets/character/hero_stand.png');
+        this.load.image('test', 'assets/character/hero_stand.png');
     }
 
     create()
     {
-        // Hero
-
-        this.hero = this.physics.add.sprite(100, 100, 'heroStand').setScale(4);
+        this.hero = this.add.hero(100, 100, 'heroStand').setScale(4)
+        // this.hero = this.physics.add.sprite(100, 100, 'heroStand').setScale(4)
+        // this.physics.add.sprite(100, 100, 'test')
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -74,32 +76,11 @@ export default class GameScene extends Phaser.Scene
         //     repeat: -1
         // });
     }
-
-    update()
+    
+    update(t: number, dt: number)
     {
-        if (this.cursors.left.isDown)
-        {
-            this.hero.setVelocityX(-speed);
-            this.hero.setVelocityY(0);
-        }
-        else if (this.cursors.right.isDown)
-        {
-            this.hero.setVelocityX(speed);
-            this.hero.setVelocityY(0);
-        }
-        else if (this.cursors.up.isDown)
-        {
-            this.hero.setVelocityX(0);
-            this.hero.setVelocityY(-speed);
-        }
-        else if (this.cursors.down.isDown)
-        {
-            this.hero.setVelocityX(0);
-            this.hero.setVelocityY(speed);
-        }
-        else{
-            this.hero.setVelocityX(0);
-            this.hero.setVelocityY(0);
+        if(this.hero){
+            this.hero.update(this.cursors)
         }
     }
 
