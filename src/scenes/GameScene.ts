@@ -76,7 +76,7 @@ export default class GameScene extends Phaser.Scene
         //     repeat: -1
         // });
     }
-    
+
     update(t: number, dt: number)
     {
         if(this.hero){
@@ -86,9 +86,5 @@ export default class GameScene extends Phaser.Scene
 
     private initEnemies() {
         this.enemies = [new Enemy(this, 250, 100, 'heroStand', this.hero)];
-        // this.physics.add.collider(this.enemies, this.enemies);
-        this.physics.add.collider(this.hero, this.enemies, (obj1, obj2) => {
-            // TODO: Hero GetDamage
-        }, undefined, this);
     }
 }

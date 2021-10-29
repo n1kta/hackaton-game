@@ -1,10 +1,10 @@
 import Phaser from "phaser";
-import { Actor } from "./actor";
 
-export default class Enemy extends Actor {
+export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     private target;
-    private AGRESSOR_RADIUS: number = 75;
-    private attackHandler: () => void;
+    private DISTANCE: number = 500;
+    private AGRESSOR_RADIUS: number = 50;
+    private SPEED: number = 80;
 
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, target, frames?: string) {
         super(scene, x, y, texture, frames);
@@ -12,38 +12,20 @@ export default class Enemy extends Actor {
         this.anims.play('default');
         this.target = target;
 
-        this.attackHandler = () => {
-            if (Phaser.Math.Distance.BetweenPoints({ x: this.x, y: this.y }, { x: this.target.x, y: this.target.y },) < this.target.width) {
-                this.getDamage();
-                this.scene.time.delayedCall(300, () => {
-                    this.destroy();
-                });
-            }
-        };
-
         scene.add.existing(this);
         scene.physics.add.existing(this);
-
-        // TODO: setSize and setOffest
-        this.getBody().setSize(16, 16);
-        this.getBody().setOffset(0, 0);
-
-        this.scene.game.events.on('attack', this.attackHandler, this);
-        this.on('destroy', () => {
-            this.scene.game.events.removeListener('attack', this.attackHandler);
-        });
     }
 
     preUpdate(t: number, dt: number): void {
-        if (Phaser.Math.Distance.BetweenPoints({ x: this.x, y: this.y },{ x: this.target.x, y: this.target.y },) < this.AGRESSOR_RADIUS) {
-            this.getBody().setVelocityX(this.x - this.target.x);
-            this.getBody().setVelocityY(this.y - this.target.y);
-        } else {
-            this.getBody().setVelocity(0);
+        if (Math.sqrt(Math.pow(this.x - this.target.x, 2) + Math.pow(this.y - this.target.y, 2)) <= this.DISTANCE) {
+            if (Phaser.Math.Distance.BetweenPoints({ x: this.x, y: this.y }, { x: this.target.x, y: this.target.y },) < this.AGRESSOR_RADIUS) {
+                console.log('attack');
+            } else {
+                console.log('follow');
+                let angle_radians = Math.atan2(this.y - this.target.y, this.x - this.target.x - 50);
+                this.y -= Math.sin(angle_radians) * (this.SPEED / 100);
+                this.x -= Math.cos(angle_radians) * (this.SPEED / 100);
+            }
         }
-    }
-
-    public setTarget(target): void {
-        this.target = target;
     }
 }
