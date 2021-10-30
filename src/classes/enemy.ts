@@ -27,7 +27,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.HP -= 1;
 
         if (this.HP <= 0) {
-            this.damage();
+            this.death();
         }
     }
 
@@ -70,7 +70,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         }, 4000);
     }
 
-    private damage() {
+    private death() {
         this.destroy();
     }
 }
