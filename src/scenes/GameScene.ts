@@ -93,7 +93,9 @@ export default class GameScene extends Phaser.Scene
         this.physics.add.collider(this.hero, this.chests, (obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject) => {
             const hero = obj1 as Hero;
             const chest = obj2 as Chest;
-            chest.open(hero);
+            if (chest.isAvailable) {
+                chest.open(hero);
+            }
         }, undefined, this);
     }
 }

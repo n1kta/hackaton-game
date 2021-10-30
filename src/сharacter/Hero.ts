@@ -1,5 +1,6 @@
 import Phaser, { GameObjects, RIGHT } from 'phaser'
-import HealthBar from '~/classes/health';
+import HealthBar from '../classes/health';
+import UltBar from '~/classes/ulta';
 import Enemy from '../classes/enemy';
 
 declare global {
@@ -14,10 +15,10 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite {
     public focus_radius = 80
     public speed = 150;
     public health;
+    public ultPoints;
     public haveHit = true;
     public walkRight = true;
     public walkLeft = false;
-    public ultPoints = 100;
     public isUlt = false;
     public isAttack = false;
     public ultPlay = false;
@@ -25,6 +26,7 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite {
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame?: string | number) {
         super(scene, x, y, texture, frame);
         this.health = new HealthBar(scene, 50, 50);
+        this.ultPoints = new UltBar(scene, 50, 125);
     }
 
     death() {
@@ -50,7 +52,6 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite {
             this.y += 100
         }, 5000);
         this.attack(enemies)
-        console.log('jsth')
         // play ult animation //
     }
 
@@ -72,7 +73,6 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite {
         }
         enemies.forEach(el => {
             if (Phaser.Math.Distance.BetweenPoints({ x: this.x, y: this.y }, { x: el.x, y: el.y },) < this.focus_radius) {
-                console.log('attackPlayer');
                 if (el.canAttack) {
                     el.getDamage()
                 }
@@ -119,16 +119,15 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite {
                 this.isAttack = false
             }, 500);
         }
-        else if (cursors.shift?.isDown && this.ultPoints >= 100) {
+        else if (cursors.shift?.isDown && this.ultPoints.value >= 100) {
             this.isUlt = true
             this.speed += 75
             this.health.value > 60 ? this.health.value = 100 : this.health.value += 40;
-            this.ultPoints = 0;
+            this.ultPoints.decrease(100);
             this.focus_radius = 140
             this.y -= 100
         }
         else if (this.isUlt) {
-            console.log('ult')
             this.useUlt(enemies)
 
             if (!this.ultPlay) {

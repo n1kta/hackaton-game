@@ -6,6 +6,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     private AGRESSOR_RADIUS: number = 70;
     private SPEED: number = 80;
     private HP: number = 1;
+    private deathCtr: number = 0;
 
     public canAttack: boolean;
     public canHit: boolean = true;
@@ -25,8 +26,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     public getDamage() {
         this.HP -= 1;
-
-        if (this.HP <= 0) {
+        
+        if (this.HP <= 0 && this.deathCtr <= 1) {
+            ++this.deathCtr;
             this.death();
         }
     }
@@ -97,7 +99,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     private death() {
-        this.target.ultPoints += 10;
-        this.destroy();
+        console.log('death');
+        this.target.ultPoints.increase(10);
     }
 }

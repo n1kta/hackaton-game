@@ -13,7 +13,8 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
     }
 
     public open(hero: Hero) {
-        hero.ultPoints += this.points;
+        this.isAvailable = false;
+        hero.ultPoints.increase(this.points);
         this.points -= 10;
         if (this.points <= 0) {
             // TODO: change image

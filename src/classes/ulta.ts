@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default class HealthBar {
+export default class UltBar {
     private bar: Phaser.GameObjects.Graphics;
     private x: number;
     private y: number;
@@ -21,6 +21,16 @@ export default class HealthBar {
         scene.add.existing(this.bar);
     }
 
+    increase(amount) {
+        this.value += amount;
+
+        if (this.value >= 100) {
+            this.value = 100;
+        }
+
+        this.draw();
+    }
+
     decrease(amount) {
         this.value -= amount;
 
@@ -29,7 +39,6 @@ export default class HealthBar {
         }
 
         this.draw();
-        return (this.value === 0);
     }
 
     draw() {
@@ -44,10 +53,10 @@ export default class HealthBar {
         this.bar.fillRect(this.x + 2, this.y + 2, window.innerWidth / 4 - 4, 46);
 
         if (this.value < 40) {
-            this.bar.fillStyle(0xFF7043);
+            this.bar.fillStyle(0x0000FF);
         }
         else {
-            this.bar.fillStyle(0xFF7043);
+            this.bar.fillStyle(0x42A5F5);
         }
 
         var d = Math.floor(this.p * this.value);
