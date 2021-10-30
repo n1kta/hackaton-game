@@ -12,8 +12,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, target, frames?: string) {
         super(scene, x, y, texture, frames);
-
-        this.anims.play('default');
         this.target = target;
 
         scene.add.existing(this);
@@ -21,6 +19,15 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.DISTANCE  = 500;
         this.canAttack = false;
+        this.initAnims()
+    }
+    private initAnims(){
+        this.anims.create({
+            key: 'enemy_stand',
+            frames: this.anims.generateFrameNumbers('enemyStatic', { start: 0, end: 3 }),
+            frameRate: 5,
+            repeat: -1
+        });
     }
 
     public getDamage() {
@@ -33,6 +40,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     preUpdate(t: number, dt: number): void {
         if (Math.sqrt(Math.pow(this.x - this.target.x, 2) + Math.pow(this.y - this.target.y, 2)) <= this.DISTANCE) {
+            this.anims.play('enemy_stand');
+            this.DISTANCE = 5000
             if (Phaser.Math.Distance.BetweenPoints({ x: this.x, y: this.y }, { x: this.target.x, y: this.target.y },) < this.AGRESSOR_RADIUS) {
                 if (this.canHit) {
                     this.hit();

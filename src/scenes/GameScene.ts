@@ -34,11 +34,12 @@ export default class GameScene extends Phaser.Scene
         this.load.spritesheet('heroUltStart', 'assets/character/hero_ult_start.png', { frameWidth: 340, frameHeight: 256 });
         this.load.spritesheet('heroMooveUpDown', 'assets/character/hero_up_down.png', { frameWidth: 64, frameHeight: 104 });
         this.load.spritesheet('heroAttack', 'assets/character/hero_attack.png', { frameWidth: 112, frameHeight: 104 });
+
+        this.load.spritesheet('enemyStatic', 'assets/enemy/enemy_static.png', { frameWidth: 100, frameHeight: 104 });
     }
 
     create()
     {
-        CharacterAnims(this.anims)
         // this.hero = this.physics.add.sprite(100, 100, 'heroStand').setScale(4)
         // this.physics.add.sprite(100, 100, 'test')
 
@@ -64,7 +65,7 @@ export default class GameScene extends Phaser.Scene
     private initEnemies() {
         // this.enemies = [new Enemy(this, 250, 100, 'heroStand', this.hero)];
         this.physics.add.collider(this.hero, this.enemies);
-        this.enemies = [new Enemy(this, 250, 100, 'heroStand', this.hero)];
+        this.enemies = [new Enemy(this, 250, 100, 'enemyStatic', this.hero)];
         this.physics.add.collider(this.hero, this.enemies)
     }
 

@@ -14,7 +14,7 @@ declare global
 
 export default class Hero extends Phaser.Physics.Arcade.Sprite
 {
-    public focus_radius = 40
+    public focus_radius = 80
     public speed = 150;
     public health = 100;
     public haveHit = true;
@@ -171,7 +171,6 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
             }else{
                 this.anims.play('hero_stand_right', true);
             }
-            
         }
     }
 }
