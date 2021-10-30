@@ -63,21 +63,12 @@ export default class GameScene extends Phaser.Scene
     private initLasers() {
         this.lasers = [new Laser(this, 300, 100, 'laser'), new Laser(this, 500, 100, 'laser')];
 
-        let perTime = false;
-
         this.physics.add.overlap(this.hero, this.lasers, (obj1, obj2) => {
             const laser = obj2 as Laser;
             const hero = obj1 as Hero;
 
-            console.log(perTime);
-
-            setTimeout(() => {
-                perTime = true;
-            }, 100);
-
-            if (laser.isOn && perTime) {
+            if (laser.isOn) {
                 laser.attack(hero);
-                perTime = false;
             }
         });
     }

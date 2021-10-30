@@ -16,7 +16,7 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
 {
     public focus_radius = 40
     public speed = 150;
-    public health = 50;
+    public health = 100;
     public haveHit = true;
     public walkRight = true;
     public walkLeft = false;
