@@ -27,7 +27,7 @@ export default class Laser extends Phaser.Physics.Arcade.Sprite {
     }
 
     public attack(hero: Hero) {
-        hero.getDamage(12);
+        hero.getDamage(2);
         console.log(hero.health);
     }
 }
