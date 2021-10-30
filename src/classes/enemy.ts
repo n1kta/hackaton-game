@@ -6,6 +6,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     private DISTANCE: number = 500;
     private AGRESSOR_RADIUS: number = 50;
     private SPEED: number = 80;
+    private HP: number = 1;
 
     public canAttack: boolean;
     public canHit: boolean = true;
@@ -22,12 +23,12 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.canAttack = false;
     }
 
-    hit()
-    {
-        this.canHit = false;
-        setTimeout(() => {
-            this.canHit = true
-        }, 4000);
+    public getDamage() {
+        this.HP -= 1;
+
+        if (this.HP <= 0) {
+            this.damage();
+        }
     }
 
     preUpdate(t: number, dt: number): void {
@@ -59,5 +60,17 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 this.x -= Math.cos(angle_radians) * (this.SPEED / 100);
             }
         }
+    }
+
+    private hit()
+    {
+        this.canHit = false;
+        setTimeout(() => {
+            this.canHit = true
+        }, 4000);
+    }
+
+    private damage() {
+        this.destroy();
     }
 }
