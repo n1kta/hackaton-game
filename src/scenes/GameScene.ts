@@ -54,6 +54,7 @@ export default class GameScene extends Phaser.Scene
     update(t: number, dt: number)
     {
         this.hero.update(this.cursors, this.enemies);
+        this.enemies.forEach(e => e.update(t, dt));
     }
 
     private initHero() {

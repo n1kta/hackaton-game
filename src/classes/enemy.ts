@@ -16,18 +16,11 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        this.setCollideWorldBounds(true);
 
         this.DISTANCE  = 500;
         this.canAttack = false;
-        this.initAnims()
-    }
-    private initAnims(){
-        this.anims.create({
-            key: 'enemy_stand',
-            frames: this.anims.generateFrameNumbers('enemyStatic', { start: 0, end: 3 }),
-            frameRate: 5,
-            repeat: -1
-        });
+        this.initAnims();
     }
 
     public getDamage() {
@@ -38,10 +31,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    preUpdate(t: number, dt: number): void {
+    update(t: number, dt:number) {
+        super.update(t, dt);
+        
         if (Math.sqrt(Math.pow(this.x - this.target.x, 2) + Math.pow(this.y - this.target.y, 2)) <= this.DISTANCE) {
-            this.anims.play('enemy_stand');
-            this.DISTANCE = 5000
             if (Phaser.Math.Distance.BetweenPoints({ x: this.x, y: this.y }, { x: this.target.x, y: this.target.y },) < this.AGRESSOR_RADIUS) {
                 if (this.canHit) {
                     this.hit();
@@ -52,7 +45,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     setTimeout(() => {
                         this.canAttack = false;
                         this.target.getDamage(20);
-                        console.log('attack');
                     }, 2000);
                 }
 
@@ -66,6 +58,15 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 }, 500);
             }
         }
+    }
+
+    private initAnims(){
+        this.anims.create({
+            key: 'enemy_stand',
+            frames: this.scene.anims.generateFrameNumbers('enemyStatic', { start: 0, end: 3 }),
+            frameRate: 5,
+            repeat: -1
+        });
     }
 
     private hit()

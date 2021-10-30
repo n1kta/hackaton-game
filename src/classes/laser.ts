@@ -2,24 +2,18 @@ import Phaser from "phaser";
 import Hero from "../сharacter/hero";
 
 export default class Laser extends Phaser.Physics.Arcade.Sprite {
-    private seconds: number = 2000;
-
     public isOn: boolean = false;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, texture: string, seconds?: number, frames?: string) {
+    constructor(scene: Phaser.Scene, x: number, y: number, texture: string, seconds: number = 2000, frames?: string) {
         super(scene, x, y, texture);
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
-        if (seconds) {
-            this.seconds = seconds;
-        }
-
         this.setVisible(false);
 
         scene.time.addEvent({
-            delay: this.seconds * 1000,
+            delay: seconds,
             callback: () => {
                 this.isOn = !this.isOn;
                 if (this.isOn) {
