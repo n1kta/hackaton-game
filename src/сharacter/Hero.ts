@@ -16,10 +16,11 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
 {
     public focus_radius = 40
     public speed = 150;
-    public health = 100;
+    public health = 50;
     public haveHit = true;
     public walkRight = true;
     public walkLeft = false;
+    public ultPoints = 100;
 
     constructor(scene: Phaser.Scene, x: number, y:number, texture: string, frame?: string | number){
         super(scene, x, y, texture, frame)
@@ -40,7 +41,17 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
             this.death();
         }
     }
-
+    useUlt()
+    {
+        console.log(this.health);
+        this.speed += 75
+        this.health > 60 ? this.health = 100 : this.health += 40;
+        this.ultPoints = 0;
+        setTimeout(() => {
+            this.speed -= 75
+        }, 5000);
+        // play ult animation //
+    }
     hit()
     {
         this.haveHit = false,
@@ -90,6 +101,10 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
         {
             this.setVelocity(0, 0);
             this.attack(enemies)
+        }
+        else if(cursors.shift?.isDown && this.ultPoints >= 100)
+        {
+            this.useUlt()
         }
         else{
             this.setVelocityX(0);
