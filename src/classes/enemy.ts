@@ -68,6 +68,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     private death() {
+        this.target.ultPoints += 10;
         this.destroy();
     }
 }

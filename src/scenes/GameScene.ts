@@ -1,17 +1,20 @@
 import Phaser from "phaser"
-import Enemy from "~/classes/enemy";
 import "../сharacter/hero"
-
 import { CharacterAnims } from "../anims/HeroAnims";
+import Laser from "../classes/laser";
+import Enemy from "../classes/enemy";
+import Chest from "../classes/chest";
+import Hero from "../сharacter/hero";
 
-const game_over = false;
 
 export default class GameScene extends Phaser.Scene
 {
-    private hero!: Phaser.Physics.Arcade.Sprite
+    private hero!: Phaser.Physics.Arcade.Sprite;
+    private chests!: Phaser.Physics.Arcade.StaticGroup;
     private cursors;
 
     private enemies: Enemy[];
+    private lasers: Laser[];
 
 	constructor()
 	{
@@ -22,40 +25,53 @@ export default class GameScene extends Phaser.Scene
     {
         this.load.image('heroStand', 'assets/character/hero_stand.png');
         this.load.image('test', 'assets/character/hero_stand.png');
+        this.load.image('laser', 'assets/laser.png');
+
         this.load.spritesheet('heroStandAnim', 'assets/character/hero_animation.png', { frameWidth: 68, frameHeight: 104 });
         this.load.spritesheet('heroMoove', 'assets/character/hero_left_right.png', { frameWidth: 72, frameHeight: 104 });
     }
 
     create()
     {
-        CharacterAnims(this.anims)
-        this.hero = this.add.hero(100, 100, 'heroStand')
-        // this.hero = this.physics.add.sprite(100, 100, 'heroStand').setScale(4)
-        // this.physics.add.sprite(100, 100, 'test')
-
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        this.cameras.main.startFollow(this.hero, true);
-
-        // Enemy
+        this.initHero();
         this.initEnemies();
-        // anims.create({
-        //     key: 'leftE',
-        //     frames: anims.generateFrameNumbers('walkingEnemy', { start: 6, end: 11 }),
-        //     frameRate: 10,
-        //     repeat: -1
-        // });
+        this.initLasers();
+        this.initChests();
     }
     
     update(t: number, dt: number)
     {
-        if(this.hero){
-            this.hero.update(this.cursors, this.enemies)
-        }
+        this.hero.update(this.cursors, this.enemies);
+    }
+
+    private initHero() {
+        CharacterAnims(this.anims);
+        this.hero = this.add.hero(100, 100, 'heroStand');
+        this.cameras.main.startFollow(this.hero, true);
     }
 
     private initEnemies() {
         this.enemies = [new Enemy(this, 250, 100, 'heroStand', this.hero)];
         this.physics.add.collider(this.hero, this.enemies);
+    }
+
+    private initLasers() {
+        this.lasers = [new Laser(this, 300, 100, 'laser')];
+    }
+
+    private initChests() {
+        this.chests = this.physics.add.staticGroup({
+            classType: Chest
+        });
+
+        this.chests.create(600, 100, 'chest');
+
+        this.physics.add.collider(this.hero, this.chests, (obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject) => {
+            const hero = obj1 as Hero;
+            const chest = obj2 as Chest;
+            chest.open(hero);
+        }, undefined, this);
     }
 }
