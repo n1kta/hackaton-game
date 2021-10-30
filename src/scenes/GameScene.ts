@@ -37,6 +37,9 @@ export default class GameScene extends Phaser.Scene
 
         this.load.spritesheet('enemyStatic', 'assets/enemy/enemy_static.png', { frameWidth: 100, frameHeight: 104 });
         this.load.spritesheet('enemyWalk', 'assets/enemy/enemy_walking.png', { frameWidth: 100, frameHeight: 104 });
+        this.load.spritesheet('enemyAttack', 'assets/enemy/enemy_attack.png', { frameWidth: 152, frameHeight: 104 });
+
+        this.load.spritesheet('timingEnemy', 'assets/timing.png', { frameWidth: 79, frameHeight: 9 });
     }
 
     create()
@@ -66,7 +69,7 @@ export default class GameScene extends Phaser.Scene
 
     private initEnemies() {
         // this.enemies = [new Enemy(this, 250, 100, 'heroStand', this.hero)];
-        this.enemies = [new Enemy(this, 250, 100, 'enemyStatic', this.hero)];
+        this.enemies = [new Enemy(this, 250, 100, 'enemyStatic', this.hero, 'timingEnemy')];
         // this.physics.add.collider(this.hero, this.enemies);
     }
 
