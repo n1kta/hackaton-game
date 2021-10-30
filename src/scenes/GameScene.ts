@@ -10,7 +10,7 @@ import Hero from "../сharacter/hero";
 export default class GameScene extends Phaser.Scene
 {
     private hero!: Phaser.Physics.Arcade.Sprite;
-    private chests!: Phaser.Physics.Arcade.StaticGroup;
+    private chests!: Phaser.Physics.Arcade.Group;
     private cursors;
 
     private enemies: Enemy[];
@@ -27,6 +27,7 @@ export default class GameScene extends Phaser.Scene
         this.load.image('test', 'assets/character/hero_stand.png');
         this.load.image('laser', 'assets/laser.png');
         this.load.image('chest', 'assets/chest.png');
+        this.load.image('chest_opened', 'assets/chest_opened.png');
 
         this.load.spritesheet('heroStandAnim', 'assets/character/hero_animation.png', { frameWidth: 68, frameHeight: 104 });
         this.load.spritesheet('heroMoove', 'assets/character/hero_left_right.png', { frameWidth: 72, frameHeight: 104 });
@@ -68,13 +69,13 @@ export default class GameScene extends Phaser.Scene
     }
 
     private initEnemies() {
-        // this.enemies = [new Enemy(this, 250, 100, 'heroStand', this.hero)];
-        this.enemies = [new Enemy(this, 250, 100, 'enemyStatic', this.hero, 'timingEnemy')];
+        this.enemies = [];
+        // this.enemies = [new Enemy(this, 250, 100, 'enemyStatic', this.hero, 'timingEnemy')];
         // this.physics.add.collider(this.hero, this.enemies);
     }
 
     private initLasers() {
-        this.lasers = [new Laser(this, 300, 100, 'laser'), new Laser(this, 500, 100, 'laser')];
+        // this.lasers = [new Laser(this, 300, 100, 'laser'), new Laser(this, 500, 100, 'laser')];
 
         this.physics.add.overlap(this.hero, this.lasers, (obj1, obj2) => {
             const laser = obj2 as Laser;
@@ -87,15 +88,15 @@ export default class GameScene extends Phaser.Scene
     }
 
     private initChests() {
-        this.chests = this.physics.add.staticGroup({
+        this.chests = this.physics.add.group({
             classType: Chest
         });
 
         this.chests.create(600, 100, 'chest');
-
-        this.physics.add.collider(this.hero, this.chests, (obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject) => {
+        this.physics.add.overlap(this.hero, this.chests, (obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject) => {
             const hero = obj1 as Hero;
             const chest = obj2 as Chest;
+            
             if (chest.isAvailable) {
                 chest.open(hero);
             }
