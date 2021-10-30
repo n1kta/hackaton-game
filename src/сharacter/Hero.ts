@@ -66,9 +66,7 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
     }
     attack(enemies: Enemy[])
     {
-        if(this.haveHit){
-            this.hit()
-        }
+        this.hit()
         if(!this.isUlt){
             if(this.walkRight)
             {
@@ -80,7 +78,9 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
         enemies.forEach(el => {
             if (Phaser.Math.Distance.BetweenPoints({ x: this.x, y: this.y }, { x: el.x, y: el.y },) < this.focus_radius) {
                 console.log('attackPlayer');
-                el.getDamage()
+                if(el.canAttack){
+                    el.getDamage()
+                }
             }
         });
     }
@@ -160,7 +160,9 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
         {
             this.setVelocityX(0);
             this.setVelocityY(0);
-            this.attack(enemies)
+            if(this.haveHit){
+                this.attack(enemies)
+            }
         }
         else{
             this.setVelocityX(0);

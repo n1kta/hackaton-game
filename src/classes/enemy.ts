@@ -3,7 +3,7 @@ import Phaser from "phaser";
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     private target;
     private DISTANCE: number;
-    private AGRESSOR_RADIUS: number = 50;
+    private AGRESSOR_RADIUS: number = 70;
     private SPEED: number = 80;
     private HP: number = 1;
 
@@ -16,7 +16,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
-        this.setCollideWorldBounds(true);
 
         this.DISTANCE  = 500;
         this.canAttack = false;
@@ -31,10 +30,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    update(t: number, dt:number) {
-        super.update(t, dt);
-        
+    update(t: number, dt:number) {        
         if (Math.sqrt(Math.pow(this.x - this.target.x, 2) + Math.pow(this.y - this.target.y, 2)) <= this.DISTANCE) {
+            this.anims.play('enemy_stand', true)
             if (Phaser.Math.Distance.BetweenPoints({ x: this.x, y: this.y }, { x: this.target.x, y: this.target.y },) < this.AGRESSOR_RADIUS) {
                 if (this.canHit) {
                     this.hit();
@@ -48,9 +46,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     }, 2000);
                 }
 
-                this.setVelocityX(0);
-                this.setVelocityY(0);
+                // this.setVelocityX(0);
+                // this.setVelocityY(0);
             } else {
+
                 setTimeout(() => {
                     let angle_radians = Math.atan2(this.y - this.target.y, this.x - this.target.x - 50);
                     this.y -= Math.sin(angle_radians) * (this.SPEED / 100);
