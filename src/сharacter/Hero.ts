@@ -21,6 +21,8 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
     public walkRight = true;
     public walkLeft = false;
     public ultPoints = 100;
+    public isUlt = false;
+    public isAttack = false;
 
     constructor(scene: Phaser.Scene, x: number, y:number, texture: string, frame?: string | number){
         super(scene, x, y, texture, frame)
@@ -41,14 +43,16 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
             this.death();
         }
     }
-    useUlt()
+    useUlt(enemies: Enemy[])
     {
-        this.speed += 75
-        this.health > 60 ? this.health = 100 : this.health += 40;
-        this.ultPoints = 0;
         setTimeout(() => {
             this.speed -= 75
+            this.focus_radius = 40
+            this.isUlt = false
+            this.y += 80
         }, 5000);
+        this.attack(enemies)
+        console.log('jsth')
         // play ult animation //
     }
     hit()
@@ -60,17 +64,26 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
     }
     attack(enemies: Enemy[])
     {
+        if(this.haveHit){
+            this.hit()
+        }
+        if(this.walkRight)
+        {
+            this.anims.play('hero_attack_right', true);
+        }else {
+            this.anims.play('hero_attack_left', true);
+        }
         enemies.forEach(el => {
             if (Phaser.Math.Distance.BetweenPoints({ x: this.x, y: this.y }, { x: el.x, y: el.y },) < this.focus_radius) {
                 console.log('attackPlayer');
-                this.hit()
+                el.getDamage()
             }
         });
     }
 
     update(cursors: Phaser.Types.Input.Keyboard.CursorKeys, enemies: Enemy[])
     {
-        if (cursors.left?.isDown)
+        if (cursors.left?.isDown && !this.isUlt)
         {
             this.setVelocityX(-this.speed);
             this.setVelocityY(0);
@@ -78,7 +91,7 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
             this.walkLeft = true
             this.anims.play('hero_left', true);
         }
-        else if (cursors.right?.isDown)
+        else if (cursors.right?.isDown && !this.isUlt)
         {
             this.setVelocityX(this.speed);
             this.setVelocityY(0);
@@ -86,24 +99,42 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
             this.walkLeft = false
             this.anims.play('hero_right', true);
         }
-        else if (cursors.up?.isDown)
+        else if (cursors.up?.isDown && !this.isUlt)
         {
             this.setVelocityX(0);
             this.setVelocityY(-this.speed);
+            this.anims.play('hero_up', true);
         }
-        else if (cursors.down?.isDown)
+        else if (cursors.down?.isDown && !this.isUlt)
         {
             this.setVelocityX(0);
             this.setVelocityY(this.speed);
+            this.anims.play('hero_down', true);
         }
-        else if(cursors.space?.isDown && this.haveHit)
+        else if(cursors.space?.isDown && this.haveHit && !this.isUlt)
         {
-            this.setVelocity(0, 0);
-            this.attack(enemies)
+            this.isAttack = true;
+            setTimeout(() => {
+                this.isAttack = false
+            }, 500);        
         }
         else if(cursors.shift?.isDown && this.ultPoints >= 100)
         {
-            this.useUlt()
+            this.isUlt = true
+            this.speed += 75
+            this.health > 60 ? this.health = 100 : this.health += 40;
+            this.ultPoints = 0;
+            this.focus_radius = 80
+            this.y -= 80
+        }
+        else if(this.isUlt)
+        {
+            this.useUlt(enemies)
+            this.anims.play('hero_ult', true)
+        }else if(this.isAttack){
+            this.setVelocityX(0);
+            this.setVelocityY(0);
+            this.attack(enemies)
         }
         else{
             this.setVelocityX(0);
