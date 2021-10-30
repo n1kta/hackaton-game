@@ -56,12 +56,30 @@ export default class GameScene extends Phaser.Scene
     }
 
     private initEnemies() {
-        this.enemies = [new Enemy(this, 250, 100, 'heroStand', this.hero)];
+        // this.enemies = [new Enemy(this, 250, 100, 'heroStand', this.hero)];
         this.physics.add.collider(this.hero, this.enemies);
     }
 
     private initLasers() {
-        this.lasers = [new Laser(this, 300, 100, 'laser')];
+        this.lasers = [new Laser(this, 300, 100, 'laser'), new Laser(this, 500, 100, 'laser')];
+
+        let perTime = false;
+
+        this.physics.add.overlap(this.hero, this.lasers, (obj1, obj2) => {
+            const laser = obj2 as Laser;
+            const hero = obj1 as Hero;
+
+            console.log(perTime);
+
+            setTimeout(() => {
+                perTime = true;
+            }, 100);
+
+            if (laser.isOn && perTime) {
+                laser.attack(hero);
+                perTime = false;
+            }
+        });
     }
 
     private initChests() {

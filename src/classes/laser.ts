@@ -1,7 +1,8 @@
 import Phaser from "phaser";
+import Hero from "../сharacter/hero";
 
 export default class Laser extends Phaser.Physics.Arcade.Sprite {
-    private isOn: boolean = false;
+    public isOn: boolean = false;
 
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frames?: string) {
         super(scene, x, y, texture);
@@ -15,7 +16,6 @@ export default class Laser extends Phaser.Physics.Arcade.Sprite {
             delay: 2000,
             callback: () => {
                 this.isOn = !this.isOn;
-                console.log(this.isOn);
                 if (this.isOn) {
                     this.setVisible(true);
                 } else {
@@ -24,5 +24,10 @@ export default class Laser extends Phaser.Physics.Arcade.Sprite {
             },
             loop: true
         });
+    }
+
+    public attack(hero: Hero) {
+        hero.getDamage(10);
+        console.log(hero.health);
     }
 }
