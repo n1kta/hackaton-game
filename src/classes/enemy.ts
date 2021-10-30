@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import Hero from "~/сharacter/hero";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     private target;
