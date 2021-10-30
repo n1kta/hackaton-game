@@ -37,6 +37,13 @@ const CharacterAnims = (anims: Phaser.Animations.AnimationManager) => {
     });
 
     anims.create({
+        key: 'hero_ult_start',
+        frames: anims.generateFrameNumbers('heroUltStart', { start: 0, end: 4 }),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    anims.create({
         key: 'hero_down',
         frames: anims.generateFrameNumbers('heroMooveUpDown', { start: 0, end: 8 }),
         frameRate: 10,

@@ -30,12 +30,17 @@ export default class GameScene extends Phaser.Scene
         this.load.spritesheet('heroStandAnim', 'assets/character/hero_animation.png', { frameWidth: 68, frameHeight: 104 });
         this.load.spritesheet('heroMoove', 'assets/character/hero_left_right.png', { frameWidth: 72, frameHeight: 104 });
         this.load.spritesheet('heroUlt', 'assets/character/hero_ult.png', { frameWidth: 340, frameHeight: 256 });
+        this.load.spritesheet('heroUltStart', 'assets/character/hero_ult_start.png', { frameWidth: 340, frameHeight: 256 });
         this.load.spritesheet('heroMooveUpDown', 'assets/character/hero_up_down.png', { frameWidth: 64, frameHeight: 104 });
         this.load.spritesheet('heroAttack', 'assets/character/hero_attack.png', { frameWidth: 112, frameHeight: 104 });
     }
 
     create()
     {
+        CharacterAnims(this.anims)
+        // this.hero = this.physics.add.sprite(100, 100, 'heroStand').setScale(4)
+        // this.physics.add.sprite(100, 100, 'test')
+
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.initHero();
@@ -51,13 +56,15 @@ export default class GameScene extends Phaser.Scene
 
     private initHero() {
         CharacterAnims(this.anims);
-        this.hero = this.add.hero(100, 100, 'heroStand');
+        this.hero = this.add.hero(100, 100, 'heroStandAnim');
         this.cameras.main.startFollow(this.hero, true);
     }
 
     private initEnemies() {
         // this.enemies = [new Enemy(this, 250, 100, 'heroStand', this.hero)];
         this.physics.add.collider(this.hero, this.enemies);
+        this.enemies = [new Enemy(this, 250, 100, 'heroStand', this.hero)];
+        this.physics.add.collider(this.hero, this.enemies)
     }
 
     private initLasers() {

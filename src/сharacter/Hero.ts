@@ -23,6 +23,7 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
     public ultPoints = 100;
     public isUlt = false;
     public isAttack = false;
+    public ultPlay = false;
 
     constructor(scene: Phaser.Scene, x: number, y:number, texture: string, frame?: string | number){
         super(scene, x, y, texture, frame)
@@ -49,7 +50,8 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
             this.speed -= 75
             this.focus_radius = 40
             this.isUlt = false
-            this.y += 80
+            this.ultPlay = false
+            this.y += 100
         }, 5000);
         this.attack(enemies)
         console.log('jsth')
@@ -67,11 +69,13 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
         if(this.haveHit){
             this.hit()
         }
-        if(this.walkRight)
-        {
-            this.anims.play('hero_attack_right', true);
-        }else {
-            this.anims.play('hero_attack_left', true);
+        if(!this.isUlt){
+            if(this.walkRight)
+            {
+                this.anims.play('hero_attack_right', true);
+            }else {
+                this.anims.play('hero_attack_left', true);
+            }
         }
         enemies.forEach(el => {
             if (Phaser.Math.Distance.BetweenPoints({ x: this.x, y: this.y }, { x: el.x, y: el.y },) < this.focus_radius) {
@@ -83,35 +87,43 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
 
     update(cursors: Phaser.Types.Input.Keyboard.CursorKeys, enemies: Enemy[])
     {
-        if (cursors.left?.isDown && !this.isUlt)
+        if (cursors.left?.isDown)
         {
             this.setVelocityX(-this.speed);
             this.setVelocityY(0);
             this.walkRight = false;
             this.walkLeft = true
-            this.anims.play('hero_left', true);
+            if(!this.isUlt){
+                this.anims.play('hero_left', true);
+            }
         }
-        else if (cursors.right?.isDown && !this.isUlt)
+        else if (cursors.right?.isDown)
         {
             this.setVelocityX(this.speed);
             this.setVelocityY(0);
             this.walkRight = true;
             this.walkLeft = false
-            this.anims.play('hero_right', true);
+            if(!this.isUlt){
+                this.anims.play('hero_right', true);
+            }
         }
-        else if (cursors.up?.isDown && !this.isUlt)
+        else if (cursors.up?.isDown)
         {
             this.setVelocityX(0);
             this.setVelocityY(-this.speed);
-            this.anims.play('hero_up', true);
+            if(!this.isUlt){
+                this.anims.play('hero_up', true);
+            }
         }
-        else if (cursors.down?.isDown && !this.isUlt)
+        else if (cursors.down?.isDown)
         {
             this.setVelocityX(0);
             this.setVelocityY(this.speed);
-            this.anims.play('hero_down', true);
+            if(!this.isUlt){
+                this.anims.play('hero_down', true);
+            }
         }
-        else if(cursors.space?.isDown && this.haveHit && !this.isUlt)
+        else if(cursors.space?.isDown)
         {
             this.isAttack = true;
             setTimeout(() => {
@@ -124,14 +136,28 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
             this.speed += 75
             this.health > 60 ? this.health = 100 : this.health += 40;
             this.ultPoints = 0;
-            this.focus_radius = 80
-            this.y -= 80
+            this.focus_radius = 140
+            this.y -= 100
         }
         else if(this.isUlt)
         {
+            console.log('ult')
             this.useUlt(enemies)
-            this.anims.play('hero_ult', true)
-        }else if(this.isAttack){
+
+            if(!this.ultPlay) {
+                this.anims.play('hero_ult_start',true)
+                if (this.anims.currentFrame.index === 4)
+                {     
+                    this.ultPlay = true
+                }
+            }else
+            {
+                this.anims.play('hero_ult',true)
+            }
+             // this.anims.play('hero_ult', true)
+        }
+        else if(this.isAttack)
+        {
             this.setVelocityX(0);
             this.setVelocityY(0);
             this.attack(enemies)
