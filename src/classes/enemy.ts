@@ -9,6 +9,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     public canAttack: boolean;
     public canHit: boolean = true;
+    public isAwaken: boolean = false;
 
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, target, frames?: string) {
         super(scene, x, y, texture, frames);
@@ -32,29 +33,41 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     update(t: number, dt:number) {        
         if (Math.sqrt(Math.pow(this.x - this.target.x, 2) + Math.pow(this.y - this.target.y, 2)) <= this.DISTANCE) {
-            this.anims.play('enemy_stand', true)
-            if (Phaser.Math.Distance.BetweenPoints({ x: this.x, y: this.y }, { x: this.target.x, y: this.target.y },) < this.AGRESSOR_RADIUS) {
-                if (this.canHit) {
-                    this.hit();
+            if(!this.isAwaken)
+            {
+                this.anims.play('enemy_stand',true)
+            }else
+            {
+                this.anims.play('enemy_walk', true)
+            }
+            if (this.anims.currentFrame.index === 4 && !this.isAwaken)
+            {     
+                this.isAwaken = true
+            }
+            this.DISTANCE = 5000   
+            if(this.isAwaken){ 
+                if (Phaser.Math.Distance.BetweenPoints({ x: this.x, y: this.y }, { x: this.target.x, y: this.target.y },) < this.AGRESSOR_RADIUS) {
+                    if (this.canHit) {
+                        this.hit();
+                        setTimeout(() => {
+                            this.canAttack = true;
+                        }, 1000);
+                        setTimeout(() => {
+                            this.canAttack = false;
+                            this.target.getDamage(20);
+                        }, 2000);
+                    }
+
+                    // this.setVelocityX(0);
+                    // this.setVelocityY(0);
+                } else {
+
                     setTimeout(() => {
-                        this.canAttack = true;
-                    }, 1000);
-    
-                    setTimeout(() => {
-                        this.canAttack = false;
-                        this.target.getDamage(20);
-                    }, 2000);
+                        let angle_radians = Math.atan2(this.y - this.target.y, this.x - this.target.x - 50);
+                        this.y -= Math.sin(angle_radians) * (this.SPEED / 100);
+                        this.x -= Math.cos(angle_radians) * (this.SPEED / 100);
+                    }, 500);
                 }
-
-                // this.setVelocityX(0);
-                // this.setVelocityY(0);
-            } else {
-
-                setTimeout(() => {
-                    let angle_radians = Math.atan2(this.y - this.target.y, this.x - this.target.x - 50);
-                    this.y -= Math.sin(angle_radians) * (this.SPEED / 100);
-                    this.x -= Math.cos(angle_radians) * (this.SPEED / 100);
-                }, 500);
             }
         }
     }
@@ -63,7 +76,14 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.anims.create({
             key: 'enemy_stand',
             frames: this.scene.anims.generateFrameNumbers('enemyStatic', { start: 0, end: 3 }),
-            frameRate: 5,
+            frameRate: 3,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'enemy_walk',
+            frames: this.scene.anims.generateFrameNumbers('enemyWalk', { start: 0, end: 4 }),
+            frameRate: 10,
             repeat: -1
         });
     }
