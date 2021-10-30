@@ -3,6 +3,8 @@ import Hero from "../сharacter/hero";
 export default class Chest extends Phaser.Physics.Arcade.Sprite {
     private points: number = 10;
     
+    public isAvailable: boolean = true;
+    
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frames?: string) {
         super(scene, x, y, texture);
 
@@ -12,6 +14,9 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
 
     public open(hero: Hero) {
         hero.ultPoints += this.points;
-        // TODO: open animation
+        this.points -= 10;
+        if (this.points <= 0) {
+            // TODO: change image
+        }
     }
 }

@@ -26,6 +26,7 @@ export default class GameScene extends Phaser.Scene
         this.load.image('heroStand', 'assets/character/hero_stand.png');
         this.load.image('test', 'assets/character/hero_stand.png');
         this.load.image('laser', 'assets/laser.png');
+        this.load.image('chest', 'assets/chest.png');
 
         this.load.spritesheet('heroStandAnim', 'assets/character/hero_animation.png', { frameWidth: 68, frameHeight: 104 });
         this.load.spritesheet('heroMoove', 'assets/character/hero_left_right.png', { frameWidth: 72, frameHeight: 104 });
