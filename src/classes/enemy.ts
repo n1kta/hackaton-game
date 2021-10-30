@@ -35,20 +35,14 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             if (Phaser.Math.Distance.BetweenPoints({ x: this.x, y: this.y }, { x: this.target.x, y: this.target.y },) < this.AGRESSOR_RADIUS) {
                 if (this.canHit) {
                     this.hit();
-
                     setTimeout(() => {
                         this.canAttack = true;
                     }, 1000);
     
                     setTimeout(() => {
                         this.canAttack = false;
-                    }, 2000);
-                } else {
-                    if (this.canAttack) {
                         this.target.getDamage(20);
-                    } else {
-                        // Nothing
-                    }
+                    }, 2000);
                 }
 
                 this.setVelocityX(0);

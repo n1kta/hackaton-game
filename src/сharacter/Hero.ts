@@ -43,7 +43,6 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite
     }
     useUlt()
     {
-        console.log(this.health);
         this.speed += 75
         this.health > 60 ? this.health = 100 : this.health += 40;
         this.ultPoints = 0;
