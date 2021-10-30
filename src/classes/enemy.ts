@@ -1,9 +1,8 @@
 import Phaser from "phaser";
-import Hero from "~/сharacter/hero";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     private target;
-    private DISTANCE: number = 500;
+    private DISTANCE: number;
     private AGRESSOR_RADIUS: number = 50;
     private SPEED: number = 80;
     private HP: number = 1;
@@ -20,6 +19,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
+        this.DISTANCE  = 500;
         this.canAttack = false;
     }
 
@@ -43,15 +43,18 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     setTimeout(() => {
                         this.canAttack = false;
                         this.target.getDamage(20);
+                        console.log('attack');
                     }, 2000);
                 }
 
                 this.setVelocityX(0);
                 this.setVelocityY(0);
             } else {
-                let angle_radians = Math.atan2(this.y - this.target.y, this.x - this.target.x - 50);
-                this.y -= Math.sin(angle_radians) * (this.SPEED / 100);
-                this.x -= Math.cos(angle_radians) * (this.SPEED / 100);
+                setTimeout(() => {
+                    let angle_radians = Math.atan2(this.y - this.target.y, this.x - this.target.x - 50);
+                    this.y -= Math.sin(angle_radians) * (this.SPEED / 100);
+                    this.x -= Math.cos(angle_radians) * (this.SPEED / 100);
+                }, 500);
             }
         }
     }
