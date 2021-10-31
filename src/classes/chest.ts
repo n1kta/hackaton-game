@@ -15,7 +15,7 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
     public open(hero: Hero) {
         this.isAvailable = false;
         hero.ultPoints.increase(this.points);
-        this.points -= 10;
+        this.points -= 30;
         if (this.points <= 0) {
             this.setTexture('chest_opened');
         }

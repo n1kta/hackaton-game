@@ -234,8 +234,12 @@ export default class GameScene extends Phaser.Scene
     }
 
     private initLasers() {
-        // this.lasers = [new Laser(this, 300, 100, 'laser'), new Laser(this, 500, 100, 'laser')];
-        this.lasers = []
+        this.lasers = [new Laser(this, 3600, 384, 'laser'),
+        new Laser(this, 3600, 384 * 2, 'laser'),
+        new Laser(this, 3600, 384 * 3, 'laser'),
+        new Laser(this, 3600, 384 * 4, 'laser'),
+        new Laser(this, 3600, 384 * 5, 'laser'),
+        new Laser(this, 3600, 384 * 6, 'laser')];
 
         this.physics.add.overlap(this.hero, this.lasers, (obj1, obj2) => {
             const laser = obj2 as Laser;

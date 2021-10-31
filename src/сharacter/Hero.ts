@@ -13,7 +13,7 @@ declare global {
 
 export default class Hero extends Phaser.Physics.Arcade.Sprite {
     public focus_radius = 80
-    public speed = 200;
+    public speed = 500;
     public health: HealthBar;
     public ultPoints: UltBar;
     public haveHit = true;
