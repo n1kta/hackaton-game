@@ -42,10 +42,12 @@ export default class GameScene extends Phaser.Scene
         this.load.spritesheet('enemyStatic', 'assets/enemy/enemy_static.png', { frameWidth: 100, frameHeight: 104 });
         this.load.spritesheet('enemyWalk', 'assets/enemy/enemy_walking.png', { frameWidth: 100, frameHeight: 104 });
         this.load.spritesheet('enemyAttack', 'assets/enemy/enemy_attack.png', { frameWidth: 152, frameHeight: 104 });
+        this.load.spritesheet('enemyDeath', 'assets/enemy/enemy_death.png', { frameWidth: 100, frameHeight: 104 });
 
         this.load.spritesheet('timingEnemy', 'assets/timing.png', { frameWidth: 79, frameHeight: 9 });
 
         this.load.spritesheet('spike', 'assets/spike.png', { frameWidth: 56, frameHeight: 164 });
+        this.load.image('game_over', 'assets/game_over1.png');
     }
 
     create()
