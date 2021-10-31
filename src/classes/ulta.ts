@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 
 export default class UltBar {
-    private bar: Phaser.GameObjects.Graphics;
+    public bar: Phaser.GameObjects.Graphics;
     private x: number;
     private y: number;
     private p: number;
@@ -10,7 +10,6 @@ export default class UltBar {
 
     constructor(scene, x, y) {
         this.bar = new Phaser.GameObjects.Graphics(scene).setScrollFactor(0);
-
         this.x = x;
         this.y = y;
         this.value = 100;
@@ -47,6 +46,7 @@ export default class UltBar {
         //  BG
         this.bar.fillStyle(0x000000);
         this.bar.fillRect(this.x, this.y, window.innerWidth / 4, 50);
+        this.bar.setZ(10);
 
         //  Health
         this.bar.fillStyle(0xffffff);

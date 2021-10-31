@@ -28,7 +28,6 @@ export default class Spike extends Phraser.Physics.Arcade.Sprite {
     public update(target): void {
         if (Phaser.Math.Distance.BetweenPoints({ x: this.x, y: this.y }, { x: target.x, y: target.y },) < 100) {
             if (this.ctr === 0) {
-                this._scene.sound.play('clock');
                 this.text.setVisible(true);
                 this.box.setVisible(true);
             }

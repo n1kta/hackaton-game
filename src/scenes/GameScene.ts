@@ -49,9 +49,12 @@ export default class GameScene extends Phaser.Scene
         this.load.spritesheet('spike', 'assets/spike.png', { frameWidth: 56, frameHeight: 164 });
         this.load.image('game_over', 'assets/game_over1.png');
 
-        this.load.audio('clock', 'assets/clock.mp3')
-        this.load.tilemapTiledJSON('map','assets/streetmap.json')
-        this.load.image('floor','assets/floor2.png')
+        this.load.audio('clock', 'assets/clock.mp3');
+
+        this.load.tilemapTiledJSON('map','assets/streetmap.json');
+        this.load.image('floor','assets/floor2.png');
+
+        this.load.spritesheet('delorean_sheet', 'assets/delorean_sheet.png');
     }
 
     create()
@@ -79,8 +82,9 @@ export default class GameScene extends Phaser.Scene
 
     private initHero() {
         CharacterAnims(this.anims);
-        this.hero = this.add.hero(100, 100, 'heroStandAnim');
-        this.cameras.main.startFollow(this.hero, true);
+        this.hero = this.add.hero(100, 400, 'heroStandAnim');
+        this.cameras.main.startFollow(this.hero);
+        this.cameras.main.setLerp(1, 0);
     }
 
     private initEnemies() {
