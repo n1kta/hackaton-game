@@ -21,7 +21,7 @@ export default class UltBar {
         scene.add.existing(this.bar);
     }
 
-    increase(amount) {
+    public increase(amount) {
         this.value += amount;
 
         if (this.value >= 100) {
@@ -31,7 +31,7 @@ export default class UltBar {
         this.draw();
     }
 
-    decrease(amount) {
+    public decrease(amount) {
         this.value -= amount;
 
         if (this.value <= 0) {

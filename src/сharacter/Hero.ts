@@ -1,4 +1,4 @@
-import Phaser, { GameObjects, RIGHT } from 'phaser'
+import Phaser, { GameObjects } from 'phaser'
 import HealthBar from '../classes/health';
 import Enemy from '../classes/enemy';
 import UltBar from '../classes/ulta';
@@ -14,7 +14,7 @@ declare global {
 export default class Hero extends Phaser.Physics.Arcade.Sprite {
     public focus_radius = 80
     public speed = 150;
-    public health;
+    public health: HealthBar;
     public ultPoints: UltBar;
     public haveHit = true;
     public walkRight = true;

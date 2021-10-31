@@ -79,7 +79,8 @@ export default class GameScene extends Phaser.Scene
     }
 
     private initEnemies() {
-        this.enemies = [new Enemy(this, 250, 100, 'enemyStatic', this.hero, 'timingEnemy')];
+        const _hero = this.hero as Hero;
+        this.enemies = [new Enemy(this, 250, 100, 'enemyStatic', _hero, 'timingEnemy')];
         // this.physics.add.collider(this.hero, this.enemies);
     }
 

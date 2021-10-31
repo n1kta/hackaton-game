@@ -1,7 +1,8 @@
 import Phaser, { RIGHT } from "phaser";
+import Hero from "~/сharacter/hero";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
-    private target;
+    public target: Hero;
     private DISTANCE: number;
     private AGRESSOR_RADIUS: number = 100;
     private SPEED: number = 80;
@@ -17,7 +18,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     public walkRight: boolean = true;
     public walkLeft: boolean = false;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, texture: string, target, barTexture: string, frames?: string) {
+    constructor(scene: Phaser.Scene, x: number, y: number, texture: string, target: Hero, barTexture: string, frames?: string) {
         super(scene, x, y, texture, frames);
         this.target = target;
 
@@ -214,7 +215,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     private death() {
         console.log('death');
-        this.target.ultPoints += 10;
         if(this.walkRight){
             this.body.setSize(100, 104, true)
             this.anims.play('enemy_death', true)
@@ -232,6 +232,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         setTimeout(() => {
            this.alpha = 0 
         }, 1100);
+        
         this.target.ultPoints.increase(10);
         this.timing.alpha = 0
         this.deathBit = true
