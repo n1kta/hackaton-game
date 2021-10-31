@@ -85,7 +85,6 @@ export default class GameScene extends Phaser.Scene
         this.load.image('h20', 'assets/peaces/до20.png')
         this.load.image('h21', 'assets/peaces/дом21.png')
         this.load.image('h22', 'assets/peaces/vice-city.png')
-        this.load.image('del', 'assets/peaces/Delorean.png')
 
         // this.load.spritesheet('delorean_sheet', 'assets/delorean_sheet.png');
         this.load.spritesheet('delorean_sheet', 'assets/Delorean.png', { frameWidth: 2000, frameHeight: 1000});
@@ -213,7 +212,7 @@ export default class GameScene extends Phaser.Scene
 
     private initHero() {
         CharacterAnims(this.anims);
-        this.hero = this.add.hero(500, 360, 'heroStandAnim');
+        this.hero = this.add.hero(800, 360, 'heroStandAnim');
         this.cameras.main.startFollow(this.hero);
     }
 

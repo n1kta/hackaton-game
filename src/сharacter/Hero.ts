@@ -85,6 +85,25 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(cursors: Phaser.Types.Input.Keyboard.CursorKeys, enemies: Enemy[]) {
+        if(this.x >= 3800){
+            if(this.y >= 1500){
+                this.scene.cameras.main.setLerp(1, 0)
+            }else{
+                this.scene.cameras.main.setLerp(0, 1)
+            }
+            if(this.x >= 6540){
+                this.scene.cameras.main.setLerp(0, 1)
+            }
+            if(this.x >= 6300 && this.y <= 500){
+                this.scene.cameras.main.setLerp(1, 0)
+            }
+            if(this.x >= 7200){
+                this.scene.cameras.main.setLerp(1, 0)
+            }
+            
+        }else{
+            this.scene.cameras.main.setLerp(1, 0)
+        }
         if (cursors.left?.isDown) {
             if(this.isUlt && !this.ultPlay){
             }else{
