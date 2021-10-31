@@ -50,10 +50,15 @@ export default class GameScene extends Phaser.Scene
         this.load.image('game_over', 'assets/game_over1.png');
 
         this.load.audio('clock', 'assets/clock.mp3')
+        this.load.tilemapTiledJSON('map','assets/streetmap.json')
+        this.load.image('floor','assets/floor2.png')
     }
 
     create()
     {
+        const map = this.make.tilemap({ key:'map', tileWidth: 96, tileHeight: 96});
+        const styleSet=map.addTilesetImage('streetTileSet','floor')
+        map.createLayer('ground',styleSet)
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.initHero();
