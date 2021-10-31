@@ -5,6 +5,7 @@ import Laser from "../classes/laser";
 import Enemy from "../classes/enemy";
 import Chest from "../classes/chest";
 import Hero from "../сharacter/hero";
+import Spike from "../classes/spike";
 
 
 export default class GameScene extends Phaser.Scene
@@ -15,6 +16,7 @@ export default class GameScene extends Phaser.Scene
 
     private enemies: Enemy[];
     private lasers: Laser[];
+    private spike: Spike;
 
 	constructor()
 	{
@@ -28,6 +30,7 @@ export default class GameScene extends Phaser.Scene
         this.load.image('laser', 'assets/laser.png');
         this.load.image('chest', 'assets/chest.png');
         this.load.image('chest_opened', 'assets/chest_opened.png');
+        this.load.image('box', 'assets/box.png');
 
         this.load.spritesheet('heroStandAnim', 'assets/character/hero_animation.png', { frameWidth: 68, frameHeight: 104 });
         this.load.spritesheet('heroMoove', 'assets/character/hero_left_right.png', { frameWidth: 72, frameHeight: 104 });
@@ -41,6 +44,8 @@ export default class GameScene extends Phaser.Scene
         this.load.spritesheet('enemyAttack', 'assets/enemy/enemy_attack.png', { frameWidth: 152, frameHeight: 104 });
 
         this.load.spritesheet('timingEnemy', 'assets/timing.png', { frameWidth: 79, frameHeight: 9 });
+
+        this.load.spritesheet('spike', 'assets/spike.png', { frameWidth: 56, frameHeight: 164 });
     }
 
     create()
@@ -51,12 +56,16 @@ export default class GameScene extends Phaser.Scene
         this.initEnemies();
         this.initLasers();
         this.initChests();
+
+        this.spike = new Spike(this, 300, 100, 'spike', this.add.sprite(0, 0, 'box'));
+        this.spike.setSize(56, 164);
     }
     
     update(t: number, dt: number)
     {
         this.hero.update(this.cursors, this.enemies);
         this.enemies.forEach(e => e.update(t, dt));
+        this.spike.update(this.hero);
     }
 
     private initHero() {
@@ -66,12 +75,13 @@ export default class GameScene extends Phaser.Scene
     }
 
     private initEnemies() {
-        this.enemies = [new Enemy(this, 250, 100, 'enemyStatic', this.hero, 'timingEnemy')];
+        this.enemies = [];
+        // this.enemies = [new Enemy(this, 250, 100, 'enemyStatic', this.hero, 'timingEnemy')];
         // this.physics.add.collider(this.hero, this.enemies);
     }
 
     private initLasers() {
-        this.lasers = [new Laser(this, 300, 100, 'laser'), new Laser(this, 500, 100, 'laser')];
+        // this.lasers = [new Laser(this, 300, 100, 'laser'), new Laser(this, 500, 100, 'laser')];
 
         this.physics.add.overlap(this.hero, this.lasers, (obj1, obj2) => {
             const laser = obj2 as Laser;
