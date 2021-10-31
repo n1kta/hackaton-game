@@ -44,6 +44,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         if(!this.deathBit)
         {      
             if (Math.sqrt(Math.pow(this.x - this.target.x, 2) + Math.pow(this.y - this.target.y, 2)) <= this.DISTANCE) {
+                console.log('attack')
                 if(!this.isAwaken)
                 {
                     this.anims.play('enemy_stand',true)
@@ -133,6 +134,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         }        
     }
     private initAnims(){
+        console.log(this.target)
         this.anims.create({
             key: 'enemy_stand',
             frames: this.scene.anims.generateFrameNumbers('enemyStatic', { start: 0, end: 3 }),
