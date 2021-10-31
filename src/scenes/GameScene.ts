@@ -89,7 +89,7 @@ export default class GameScene extends Phaser.Scene
 
         // this.load.spritesheet('delorean_sheet', 'assets/delorean_sheet.png');
         this.load.spritesheet('delorean_sheet', 'assets/Delorean.png', { frameWidth: 2000, frameHeight: 1000});
-        this.load.image('delorean', 'assets/Delorean1.png');
+        this.load.image('delorean', 'assets/Delorean2.png');
     }
 
     create()
@@ -171,7 +171,7 @@ export default class GameScene extends Phaser.Scene
 
         // this.spike = new Spike(this, 300, 100, 'spike', this.add.sprite(0, 0, 'box'));
         // this.spike.setSize(56, 164);
-        this.spike = new Spike(this, 300, 300, 'spike', this.add.sprite(0, 0, 'box'));
+        this.spike = new Spike(this, 4000, 400, 'spike', this.add.sprite(0, 0, 'box')).setScale(1.5);
         this.spike.setSize(56, 164);
 
         this.anims.create({
@@ -182,7 +182,7 @@ export default class GameScene extends Phaser.Scene
         });
 
 
-        const del = this.physics.add.sprite(100, 100, 'delorean');
+        const del = this.physics.add.sprite(8900, 570, 'delorean');
 
         this.physics.add.overlap(this.hero, del, () => {
             if (this.ctr <= 0) {
@@ -191,7 +191,7 @@ export default class GameScene extends Phaser.Scene
                     delay: 2000,
                     callback: () => {
                         this.scene.setVisible(true);
-                        this.delorean = this.physics.add.sprite(window.innerWidth / (2 * del.x) + 100, window.innerHeight / 2, 'delorean_sheet').setScale(0.80);
+                        this.delorean = this.physics.add.sprite(this.hero.x, this.hero.y - 100, 'delorean_sheet').setScale(0.80);
                         this.delorean.depth = 300;
                         this.delorean.play('delorean', true);
                         this.hero.y -= 100;
@@ -208,7 +208,7 @@ export default class GameScene extends Phaser.Scene
     {
         this.hero.update(this.cursors, this.enemies);
         this.enemies.forEach(e => e.update(t, dt));
-        // this.spike.update(this.hero);
+        this.spike.update(this.hero);
     }
 
     private initHero() {

@@ -13,7 +13,7 @@ declare global {
 
 export default class Hero extends Phaser.Physics.Arcade.Sprite {
     public focus_radius = 80
-    public speed = 500;
+    public speed = 200;
     public health: HealthBar;
     public ultPoints: UltBar;
     public haveHit = true;
@@ -94,7 +94,7 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite {
             this.walkRight = false;
             this.walkLeft = true
             if (!this.isUlt) {
-                // this.anims.play('hero_left', true);
+                this.anims.play('hero_left', true);
             }
         }
         else if (cursors.right?.isDown) {
