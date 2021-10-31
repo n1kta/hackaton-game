@@ -138,6 +138,13 @@ export default class GameScene extends Phaser.Scene
         this.add.image(8900, 170, 'h7')
         this.add.image(8000, 170, 'h4')
         this.add.image(8900, 570, 'del').setScale(1.5)
+        const col2 = this.add.image(700, 700, 'obj1').setScale(0.5)
+        const col3 = this.add.image(1300, 700, 'obj1').setScale(0.5)
+        const col4 = this.add.image(2800, 700, 'obj1').setScale(0.5)
+        const col5 = this.add.image(100, 600, 'obj2').setScale(0.5)
+        this.add.image(6500, 900, 'obj1').setScale(0.5)
+        this.add.image(7300, 700, 'obj2').setScale(0.5)
+        this.add.image(3500, 800, 'obj2').setScale(0.5)
 
 
         /////////////////////////////////////
@@ -150,7 +157,7 @@ export default class GameScene extends Phaser.Scene
         this.add.image(4470, 900, 'h14')
 
         ////////////////
-        walls.setCollisionByProperty({collides: true})
+        walls.setCollisionByProperty({collides: true}))
 
         const platforms = this.physics.add.staticGroup();
         // platforms.create(300, 600, 'obj1').setScale(0.5)
@@ -206,18 +213,23 @@ export default class GameScene extends Phaser.Scene
 
     private initHero() {
         CharacterAnims(this.anims);
-        this.hero = this.add.hero(1000, 360, 'heroStandAnim');
-        if(this.hero.x > 900){
-            this.cameras.main.startFollow(this.hero);
-            // this.cameras.main.setLerp(1, 0);
-        }else{
-            this.cameras.main.x = 900
-        }
+        this.hero = this.add.hero(500, 360, 'heroStandAnim');
+        this.cameras.main.startFollow(this.hero);
     }
 
     private initEnemies() {
         const _hero = this.hero as Hero;
-        this.enemies = [new Enemy(this, 250, 100, 'enemyStatic', _hero, 'timingEnemy'), new Enemy(this, 500, 200, 'enemyStatic', _hero, 'timingEnemy')];
+        this.enemies = [new Enemy(this, 1000, 400, 'enemyStatic', _hero, 'timingEnemy'),
+         new Enemy(this, 3070, 864, 'enemyStatic', _hero, 'timingEnemy'),
+         new Enemy(this, 3360, 1536, 'enemyStatic', _hero, 'timingEnemy'),
+         new Enemy(this, 5088, 1824, 'enemyStatic', _hero, 'timingEnemy'),
+         new Enemy(this, 6432, 1056, 'enemyStatic', _hero, 'timingEnemy'),
+         new Enemy(this, 7008, 672, 'enemyStatic', _hero, 'timingEnemy'),
+         new Enemy(this, 7680, 1152, 'enemyStatic', _hero, 'timingEnemy'),
+         new Enemy(this, 6432, 1824, 'enemyStatic', _hero, 'timingEnemy'),
+         new Enemy(this, 4224, 1920, 'enemyStatic', _hero, 'timingEnemy'),
+         new Enemy(this, 2592, 1056, 'enemyStatic', _hero, 'timingEnemy'),
+         new Enemy(this, 1056, 1056, 'enemyStatic', _hero, 'timingEnemy')];
         // this.physics.add.collider(this.hero, this.enemies);
     }
 
@@ -240,7 +252,12 @@ export default class GameScene extends Phaser.Scene
             classType: Chest
         });
 
-        // this.chests.create(600, 100, 'chest');
+        // this.chests.add.
+
+        this.chests.create(3744, 384, 'chest');
+        this.chests.create(5664, 1632, 'chest');
+        this.chests.create(6240, 325, 'chest');
+
         this.physics.add.overlap(this.hero, this.chests, (obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject) => {
             const hero = obj1 as Hero;
             const chest = obj2 as Chest;

@@ -13,7 +13,7 @@ declare global {
 
 export default class Hero extends Phaser.Physics.Arcade.Sprite {
     public focus_radius = 80
-    public speed = 200;
+    public speed = 500;
     public health: HealthBar;
     public ultPoints: UltBar;
     public haveHit = true;
@@ -87,7 +87,6 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite {
     update(cursors: Phaser.Types.Input.Keyboard.CursorKeys, enemies: Enemy[]) {
         if (cursors.left?.isDown) {
             if(this.isUlt && !this.ultPlay){
-                return
             }else{
                 this.setVelocityX(-this.speed);
             }

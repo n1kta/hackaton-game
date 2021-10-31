@@ -1,7 +1,7 @@
 import Hero from "../сharacter/hero";
 
 export default class Chest extends Phaser.Physics.Arcade.Sprite {
-    private points: number = 10;
+    private points: number = 30;
     
     public isAvailable: boolean = true;
     
