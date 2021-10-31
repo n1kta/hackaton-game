@@ -14,7 +14,7 @@ export default class Spike extends Phraser.Physics.Arcade.Sprite {
 
         this.initAnims();
 
-        this.text = this._scene.add.text(this.x + 50, this.y - 125, 'Hello World');
+        this.text = this._scene.add.text(this.x + 50, this.y - 125, "Actually, I don't know how I got here. Anyways, there is some car down the road, I think you should check it out...", { fontFamily: 'Arial', fontSize: '12px', wordWrap: { width: 220 } });
         this.text.setVisible(false);
         this.text.setZ(5);
         

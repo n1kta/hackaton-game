@@ -45,12 +45,12 @@ export default class UltBar {
 
         //  BG
         this.bar.fillStyle(0x000000);
-        this.bar.fillRect(this.x, this.y, window.innerWidth / 4, 50);
+        this.bar.fillRect(this.x, this.y, window.innerWidth / 4, 44);
         this.bar.setZ(10);
 
         //  Health
         this.bar.fillStyle(0xffffff);
-        this.bar.fillRect(this.x + 2, this.y + 2, window.innerWidth / 4 - 4, 46);
+        this.bar.fillRect(this.x + 2, this.y + 2, window.innerWidth / 4 - 4, 40);
 
         if (this.value < 40) {
             this.bar.fillStyle(0x0000FF);
@@ -60,6 +60,6 @@ export default class UltBar {
         }
 
         var d = Math.floor(this.p * this.value);
-        this.bar.fillRect(this.x + 2, this.y + 2, d, 46);
+        this.bar.fillRect(this.x + 2, this.y + 2, d, 40);
     }
 }

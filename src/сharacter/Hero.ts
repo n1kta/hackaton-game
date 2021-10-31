@@ -28,9 +28,9 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite {
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame?: string | number) {
         super(scene, x, y, texture, frame);
         this._scene = scene;
-        this.health = new HealthBar(scene, 50, 50);
+        this.health = new HealthBar(scene, 50, window.innerHeight - 175);
         this.health.bar.depth = 100;
-        this.ultPoints = new UltBar(scene, 50, 125);
+        this.ultPoints = new UltBar(scene, 50, window.innerHeight - 100);
         this.ultPoints.bar.depth = 100;
     }
 
@@ -134,11 +134,6 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite {
             }
         }
         else if (cursors.space?.isDown) {
-            if (!this.isAttack) {
-                // TODO: FIX
-                this._scene.sound.play('clock');
-            }
-
             this.isAttack = true;
             setTimeout(() => {
                 this.isAttack = false
@@ -193,7 +188,6 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite {
                 }
             } else {
                 this.anims.play('hero_ult', true);
-                this._scene.sound.play('ulta_sound');
             }
             // this.anims.play('hero_ult', true)
         }
