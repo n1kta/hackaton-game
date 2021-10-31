@@ -138,13 +138,13 @@ export default class GameScene extends Phaser.Scene
         this.add.image(8900, 170, 'h7')
         this.add.image(8000, 170, 'h4')
         this.add.image(8900, 570, 'del').setScale(1.5)
-        const col2 = this.add.image(700, 700, 'obj1').setScale(0.5)
-        const col3 = this.add.image(1300, 700, 'obj1').setScale(0.5)
-        const col4 = this.add.image(2800, 700, 'obj1').setScale(0.5)
-        const col5 = this.add.image(100, 600, 'obj2').setScale(0.5)
-        this.add.image(6500, 900, 'obj1').setScale(0.5)
-        this.add.image(7300, 700, 'obj2').setScale(0.5)
-        this.add.image(3500, 800, 'obj2').setScale(0.5)
+        const col2 = this.add.image(700, 700, 'obj1')
+        const col3 = this.add.image(1300, 700, 'obj1')
+        const col4 = this.add.image(2800, 700, 'obj1')
+        const col5 = this.add.image(100, 600, 'obj2')
+        this.add.image(6500, 900, 'obj1')
+        this.add.image(7300, 700, 'obj2')
+        this.add.image(3500, 800, 'obj2')
 
 
         /////////////////////////////////////
@@ -157,7 +157,7 @@ export default class GameScene extends Phaser.Scene
         this.add.image(4470, 900, 'h14')
 
         ////////////////
-        walls.setCollisionByProperty({collides: true}))
+        walls.setCollisionByProperty({collides: true})
 
         const platforms = this.physics.add.staticGroup();
         // platforms.create(300, 600, 'obj1').setScale(0.5)
