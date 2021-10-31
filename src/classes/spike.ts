@@ -1,19 +1,20 @@
-import { Physics } from "phaser";
+import Phraser from "phaser";
 
-export default class Spike extends Physics.Arcade.Sprite {
+export default class Spike extends Phraser.Physics.Arcade.Sprite {
+    private _scene;
     private text;
     private box;
     private ctr = 0;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, texture: string, box: Physics.Arcade.Sprite, frames?: string) {
+    constructor(scene: Phaser.Scene, x: number, y: number, texture: string, box, frames?: string) {
         super(scene, x, y, texture);
-
+        this._scene = scene;
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
         this.initAnims();
 
-        this.text = this.scene.add.text(this.x + 50, this.y - 125, 'Hello World');
+        this.text = this._scene.add.text(this.x + 50, this.y - 125, 'Hello World');
         this.text.setVisible(false);
         this.text.setZ(5);
         
@@ -21,11 +22,13 @@ export default class Spike extends Physics.Arcade.Sprite {
         this.box.x = this.x + 150;
         this.box.y = this.y - 100;
         this.box.setZ(1);
+
     }
 
     public update(target): void {
         if (Phaser.Math.Distance.BetweenPoints({ x: this.x, y: this.y }, { x: target.x, y: target.y },) < 100) {
             if (this.ctr === 0) {
+                this._scene.sound.play('clock');
                 this.text.setVisible(true);
                 this.box.setVisible(true);
             }

@@ -232,7 +232,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         setTimeout(() => {
            this.alpha = 0 
         }, 1100);
-        this.target.ultPoints += 10;
+        this.target.ultPoints.increase(10);
         this.timing.alpha = 0
         this.deathBit = true
 

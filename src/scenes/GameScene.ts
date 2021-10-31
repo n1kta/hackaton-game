@@ -48,6 +48,8 @@ export default class GameScene extends Phaser.Scene
 
         this.load.spritesheet('spike', 'assets/spike.png', { frameWidth: 56, frameHeight: 164 });
         this.load.image('game_over', 'assets/game_over1.png');
+
+        this.load.audio('clock', 'assets/clock.mp3')
     }
 
     create()

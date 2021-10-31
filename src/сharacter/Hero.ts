@@ -1,6 +1,7 @@
 import Phaser, { GameObjects, RIGHT } from 'phaser'
-import HealthBar from '~/classes/health';
+import HealthBar from '../classes/health';
 import Enemy from '../classes/enemy';
+import UltBar from '../classes/ulta';
 
 declare global {
     namespace Phaser.GameObjects {
@@ -14,10 +15,10 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite {
     public focus_radius = 80
     public speed = 150;
     public health;
+    public ultPoints: UltBar;
     public haveHit = true;
     public walkRight = true;
     public walkLeft = false;
-    public ultPoints = 100;
     public isUlt = false;
     public isAttack = false;
     public ultPlay = false;
@@ -25,6 +26,7 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite {
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame?: string | number) {
         super(scene, x, y, texture, frame);
         this.health = new HealthBar(scene, 50, 50);
+        this.ultPoints = new UltBar(scene, 50, 125);
     }
 
     death() {
@@ -132,7 +134,7 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite {
                 this.isAttack = false
             }, 500);
         }
-        else if (cursors.shift?.isDown && this.ultPoints >= 100) {
+        else if (cursors.shift?.isDown && this.ultPoints.value >= 100) {
             if(!this.isUlt)
             {
                 this.body.setSize(340, 256, false)
@@ -148,7 +150,7 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite {
             this.isUlt = true
             this.speed += 75
             this.health.value > 60 ? this.health.value = 100 : this.health.value += 40;
-            this.ultPoints = 0;
+            this.ultPoints.decrease(100);
             this.focus_radius = 340
             this.y -= 70
         }
