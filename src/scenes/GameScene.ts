@@ -45,9 +45,6 @@ export default class GameScene extends Phaser.Scene
 
     create()
     {
-        // this.hero = this.physics.add.sprite(100, 100, 'heroStand').setScale(4)
-        // this.physics.add.sprite(100, 100, 'test')
-
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.initHero();
@@ -69,13 +66,12 @@ export default class GameScene extends Phaser.Scene
     }
 
     private initEnemies() {
-        this.enemies = [];
-        // this.enemies = [new Enemy(this, 250, 100, 'enemyStatic', this.hero, 'timingEnemy')];
+        this.enemies = [new Enemy(this, 250, 100, 'enemyStatic', this.hero, 'timingEnemy')];
         // this.physics.add.collider(this.hero, this.enemies);
     }
 
     private initLasers() {
-        // this.lasers = [new Laser(this, 300, 100, 'laser'), new Laser(this, 500, 100, 'laser')];
+        this.lasers = [new Laser(this, 300, 100, 'laser'), new Laser(this, 500, 100, 'laser')];
 
         this.physics.add.overlap(this.hero, this.lasers, (obj1, obj2) => {
             const laser = obj2 as Laser;
